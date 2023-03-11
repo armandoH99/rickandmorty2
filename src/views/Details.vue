@@ -7,7 +7,7 @@
         class="big_card_inside"
       >
         <div class="big_card_image">
-          <img :src="character.image" :alt="character.mainName" />
+          <img :src="character.image" :alt="character.mainName"  class="imageChar"/>
         </div>
         <div class="big_card_details">
           <h1>{{ character.mainName }}</h1>
@@ -20,22 +20,21 @@
             <li>
               <strong>Episodes:</strong>
               <ul class="episodes-list">
-                <div
+                <li
                   v-for="episodeUrl in character.episode"
-                  :key="episodeUrl.url"
+                  :key="episodeUrl.id"
                 >
-                  <li v-if="episodeMap[episodeUrl.url]">
-                    Episode: {{ episodeMap[episodeUrl.url].number }}, Name:
-                    {{ episodeMap[episodeUrl.url].name }}
-                  </li>
-                </div>
+                  <template v-if="episodeMap[episodeUrl]">
+                    <div>{{ episodeMap[episodeUrl].name }}</div>
+                  </template>
+                </li>
               </ul>
             </li>
           </ul>
         </div>
       </div>
     </div>
-    <div class="tall-component2"></div>
+    <!-- <div class="tall-component2"></div> -->
   </div>
 </template>
 
@@ -45,8 +44,7 @@
 
   import { defineComponent } from "vue";
 
-
-export default defineComponent({
+  export default defineComponent({
     name: "Details",
     props: {
       id: String,
@@ -59,15 +57,20 @@ export default defineComponent({
         default: () => [],
       },
     },
+
     computed: {
-      episodeMap(): Record<string, { number: string; name: string }> {
+      episodeMap(): Record<
+        string,
+        { id: number; number: string; name: string }
+      > {
         return this.episodes.reduce((map, episode) => {
           map[episode.url] = {
+            id: episode.id,
             number: episode.episode,
             name: episode.name,
           };
           return map;
-        }, {} as Record<string, { number: string; name: string }>);
+        }, {} as Record<string, { id: number; number: string; name: string }>);
       },
     },
   });

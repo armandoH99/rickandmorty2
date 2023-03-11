@@ -1,9 +1,13 @@
 <template>
-  <div class="parentcontainer">
+  <div class="parentcontainer flex">
     <div class="logocontainer flex fullW">
       <img src="./assets/textrickandmorty.png" class="logo" alt="..." />
     </div>
-    <router-view :characters="characters" :episodes="episodes"></router-view>
+    <router-view
+      class="paddingBottom"
+      :characters="characters"
+      :episodes="episodes"
+    ></router-view>
   </div>
 </template>
 
@@ -32,7 +36,7 @@
     },
     methods: {
       async getAllCharacters() {
-        console.log('hey')
+        // console.log("hey");
         try {
           const res = await axios.get(
             "https://rickandmortyapi.com/api/character/"
@@ -69,7 +73,7 @@
               locationName,
             })
           );
-          console.log(characters);
+          // console.log(characters);
           this.characters = characters;
         } catch (e) {
           console.log(e);
@@ -98,8 +102,8 @@
               episode,
             })
           );
-          console.log(episodes);
-          // this.episodes = episodes;
+          // console.log(episodes);
+          this.episodes = episodes;
         } catch (e) {
           console.log(e);
         }
@@ -141,7 +145,13 @@
   }
   .parentcontainer {
     overflow: auto;
-    padding-top: 30px;
+    flex-direction: column;
+    align-content: center;
+    height: 100vh;
+  }
+  .paddingBottom {
+    /* margin-bottom: 30px;
+    border:1px solid red; */
   }
   .tall-component {
     height: 1500px;
@@ -161,8 +171,8 @@
     border-radius: 5px;
   }
   .container {
-    height: 800px;
-    padding: 50px;
+    height: 100vh;
+    /* padding: 50px; */
     flex-wrap: wrap;
     gap: 50px;
   }
@@ -183,7 +193,8 @@
   }
   .logocontainer {
     justify-content: center;
-    align-items: center;
+    /* align-items: center; */
+    padding-top: 30px;
   }
   .logo {
     width: 400px;
@@ -222,7 +233,7 @@
   }
   .big_card_inside {
     display: flex;
-    width: 810px;
+    max-width: 810px;
     flex-wrap: wrap;
     background-color: #208d45;
     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
@@ -234,12 +245,34 @@
   }
   .big_card_image {
     margin-right: 20px;
+    /* border: 1px solid red; */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    widows: 100%;
   }
   .big_card_image img {
     width: 200px;
+    height: 200px;
+    object-fit: contain;
     border: 2px solid #02ff97;
     border-radius: 5px;
+    justify-content: center;
+    align-items: center;
+    justify-self: center;
   }
+  @media screen and (max-width: 800px) {
+    .big_card_image img {
+    }
+    .big_card_details {   
+    width: 600px;
+  }
+  .big_card_inside {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;    
+  }
+  } 
   .big_card_details {
     background-color: #02ff97;
     border-radius: 5px;
